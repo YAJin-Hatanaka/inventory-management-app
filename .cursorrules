@@ -1,0 +1,28 @@
+# Cursor Project Rules
+
+このプロジェクトでAIアシスタント（Cursor/Chat/Code Actions等）が遵守すべき開発ルールを定義します。疑義がある場合は下記の優先度順に従って判断してください。
+
+## 優先ドキュメント（上から優先）
+1) docs/best-practices/development-guidelines.md （本プロジェクトの正規ガイドライン）
+
+## 必須ルール（抜粋）
+- すべての会話・説明は日本語で行う。
+- TypeScript は strict。`any` は禁止。小さく純粋な関数を心がける。
+- App Router 構成: ページは `app/` 配下に配置する。Middleware には業務ロジックを持たせない。
+- データ取得は「サーバーで初回シード + クライアントで再検証（SWR）」を採用。初回シードは最小共通祖先レイアウト（通常 `app/layout.tsx`）で一度だけ実行して配下に配信する。
+- Supabase クライアントは `lib/supabase/server.ts`（SSR）と `lib/supabase/client.ts`（Browser）を使用。
+- 更新操作は Server Action/Route 経由。Service Role キーはサーバーのみで使用し、クライアントへ露出しない。
+- 既存コードのインデント/フォーマットを尊重し、無関係なリフォーマットを行わない。
+- できるだけ既存のUIを使うこと。
+
+## 衝突時の判断
+- ルール間で矛盾が生じる場合は「development-guidelines.md」を最優先し、そこに則って他ドキュメントを解釈・更新する。
+
+## 重要
+- 実装手順書の作成をするときや、コードレビューをするときは以下のドキュメントの修正が必要か判断をして、必要に応じて修正する。
+    - docs/best-practices/development-guidelines.md
+    - docs/design specification/functional_requirements.md
+    - docs/design specification/technical-requirements.md
+    - docs/design specification/database-table-design.md
+    - docs/design specification/account-signup-requirements.md
+

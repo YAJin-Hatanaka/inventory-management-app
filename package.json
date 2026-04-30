@@ -1,0 +1,50 @@
+{
+  "name": "inventory-management-app",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": "20.x",
+    "npm": ">=10"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "test": "jest --passWithNoTests",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
+    "@supabase/ssr": "^0.7.0",
+    "@supabase/supabase-js": "^2.87.1",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
+    "lucide-react": "^0.562.0",
+    "next": "16.2.4",
+    "pino": "^10.1.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "react-hook-form": "^7.69.0",
+    "swr": "^2.3.7",
+    "tailwind-merge": "^3.4.0",
+    "zod": "^4.2.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.57.0",
+    "@tailwindcss/postcss": "^4",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.1",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.4",
+    "jest": "^30.2.0",
+    "jest-environment-jsdom": "^30.2.0",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
