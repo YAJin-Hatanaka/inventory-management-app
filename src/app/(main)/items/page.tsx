@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { ItemMasterClient } from "@/features/inventory/components/item-master-client";
 import {
   canManageItemMaster,
@@ -21,12 +22,32 @@ function getSearchName(name: string | string[] | undefined): string {
   return name ?? "";
 }
 
+type ItemMasterContentProps = {
+  readonly canManageItems: boolean;
+  readonly searchName: string;
+};
+
+async function ItemMasterContent({
+  canManageItems,
+  searchName,
+}: ItemMasterContentProps) {
+  const supabase = await createClient();
+  const items = await fetchInventoryItems(supabase, searchName);
+
+  return (
+    <ItemMasterClient
+      canManageItems={canManageItems}
+      initialItems={items}
+      initialSearchName={searchName}
+    />
+  );
+}
+
 export default async function ItemsPage({ searchParams }: ItemsPageProps) {
   const currentUserRole = await requirePagePermission(canViewItemMaster);
   const resolvedSearchParams = await searchParams;
   const searchName = getSearchName(resolvedSearchParams?.name);
-  const supabase = await createClient();
-  const items = await fetchInventoryItems(supabase, searchName);
+  const canManageItems = canManageItemMaster(currentUserRole.role);
 
   return (
     <>
@@ -39,11 +60,19 @@ export default async function ItemsPage({ searchParams }: ItemsPageProps) {
           品目の追加・編集・削除を行います。品目コードは自動採番されます。
         </p>
       </header>
-      <ItemMasterClient
-        canManageItems={canManageItemMaster(currentUserRole.role)}
-        initialItems={items}
-        initialSearchName={searchName}
-      />
+      <Suspense
+        fallback={
+          <section className="border border-zinc-200 bg-white px-4 py-5 text-sm text-zinc-600">
+            品目マスタを読み込んでいます。
+          </section>
+        }
+        key={searchName}
+      >
+        <ItemMasterContent
+          canManageItems={canManageItems}
+          searchName={searchName}
+        />
+      </Suspense>
     </>
   );
 }
